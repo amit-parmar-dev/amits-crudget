@@ -3,7 +3,7 @@ import { currency } from "../utilityCode";
 import { Text } from "@nextui-org/react";
 
 
-export default function ItemCard({ itemName, total, max, bground }) {
+export default function ItemCard({ itemName, total, max, bground, onCreateExpenseClick, onViewExpensesClick, hideButtons }) {
   const classNames = []
   if (total > max){
     classNames.push("bg-danger", "bg-opacity-10")
@@ -18,26 +18,29 @@ export default function ItemCard({ itemName, total, max, bground }) {
           <Text size={20} weight="normal">
             <div className="align-items-baseline d-flex">
             <Text weight="semibold" size={20} className="mx-1">{currency.format(total)}</Text> 
-            / {currency.format(max)}
+            {max && (<div>/ {currency.format(max)}</div>)}
             </div>
           </Text>
       </Card.Header>
       <Card.Body css={{py : "$0"}}>
-        <Progress 
+        {max && (<Progress 
           className = "mb-4" 
           striped value = {total} 
           max = {max} 
           color = {progBarColor(total, max)} 
           status = {progBarColor(total, max)}
         />
+        )}
       </Card.Body>
+      
       <Card.Divider/>
-      <Card.Footer>
+      {!hideButtons && (<Card.Footer>
         <Button.Group bordered color="neutral" className="ms-auto">
-          <Button>Create Expense</Button>
-          <Button>View Expenses</Button>
+          <Button onPress={onCreateExpenseClick}>Create Expense</Button>
+          <Button onPress={onViewExpensesClick}>View Expenses</Button>
         </Button.Group>
-      </Card.Footer>
+      </Card.Footer>)}
+      
     </Card>
   )
 }

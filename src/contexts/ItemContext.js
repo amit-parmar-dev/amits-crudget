@@ -4,6 +4,7 @@ import useLocalStorage from '../hooks/useLocalStorage'
 
 const ItemContext = React.createContext()
 
+export const uncategorizedID = "Uncategorized"
 
 export function useItemContext() {
     return useContext(ItemContext)
@@ -11,15 +12,15 @@ export function useItemContext() {
 
 
 export const ItemContextProvider = ({children}) => {
-    const [budgets, setBud] = useLocalStorage("budgets", [])
-    const [expenses, setExp] = useLocalStorage("expenses", [])
+    const [budgets, setBudgets] = useLocalStorage("budgets", [])
+    const [expenses, setExpenses] = useLocalStorage("expenses", [])
 
     function getBudExp (budgetID) {
         return expenses.filter(expense => expense.budgetID === budgetID)
     }
 
     function createBudget ({ name, max }) {
-        setBud(prevBud => {
+        setBudgets(prevBud => {
             if (prevBud.find(budget => budget.name === name)) {
                 return prevBud
             }
@@ -28,19 +29,25 @@ export const ItemContextProvider = ({children}) => {
     }
     
     function createExpense ({ desc, total, budgetID}) {
-        setExp(prevExp => {
+        setExpenses(prevExp => {
             return [...prevExp, {id: v4(), desc, total, budgetID}]
         })
     }
 
-    function delBudget ( id ) {
-        setBud(prevBud => {
+    function delBudget ({ id }) {
+        setExpenses(prevExp => {
+            return prevExp.map(expense => {
+                if (expense.budgetId !== id) return expense
+                return { ...expense, budgetId: uncategorizedID }
+            })
+        })
+        setBudgets(prevBud => {
             return prevBud.filter(budget => budget.id !== id )
         })
     }
 
-    function delExpense ( id ) {
-        setExp(prevExp => {
+    function delExpense ({ id }) {
+        setExpenses(prevExp => {
             return prevExp.filter(expense => expense.id !== id)
         })
 
