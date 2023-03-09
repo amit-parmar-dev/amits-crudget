@@ -1,6 +1,6 @@
 # Amit's CRUDget
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple CRUD (create, read, update, delete) budgeting app that I created to improve my understanding of React.js
 
 ## How to Use
 
