@@ -1,6 +1,6 @@
 # Amit's CRUDget
 
-This is a simple CRUD (create, read, update, delete) budgeting app that I created to improve my understanding of React.js
+This is a simple CRUD (create, read, update, delete) budgeting app that I created to improve and showcase my understanding of React.js
 
 ## How to Use
 
